@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Chat</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- SockJS: WebSocket fallback library -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <!-- STOMP: Messaging protocol over WebSocket -->
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+</head>
+
+<body class="chat-page">
+
+    <div class="chat-app">
+
+        <!-- ===== LEFT SIDEBAR ===== -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="current-user">
+                    <div class="avatar" id="currentUserAvatar">?</div>
+                    <div>
+                        <div class="current-username" id="currentUsername">Loading...</div>
+                        <div class="status-badge online">● Online</div>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="btn-logout" title="Logout">⏻</button>
+            </div>
+
+            <div class="sidebar-search">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="6.5"></circle>
+                        <line x1="16" y1="16" x2="21" y2="21"></line>
+                    </svg>
+                    <input type="text" id="searchUsers" placeholder="Search users...">
+                </div>
+            </div>
+
+            <div class="users-label">All Users</div>
+
+            <!-- List of all other users -->
+            <ul id="userList" class="user-list">
+                <li class="loading-users">Loading users...</li>
+            </ul>
+        </aside>
+
+        <!-- ===== MAIN CHAT AREA ===== -->
+        <main class="chat-main">
+
+            <!-- Shown when no user is selected -->
+            <div id="noChatSelected" class="no-chat">
+                <div class="no-chat-icon">
+                    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1em"
+                        height="1em">
+                        <rect x="22.5" y="4" width="77.5" height="60.5" rx="8" ry="8" fill="#586ba4" />
+                        <path
+                            d="M 0 29.5 A 8 8 0 0 1 8 21.5 H 70 A 8 8 0 0 1 78 29.5 V 74 A 8 8 0 0 1 70 82 H 14 L 0 100 V 29.5 Z"
+                            fill="#7086c8" />
+                    </svg>
+                </div>
+                <h2>Select a user to start chatting</h2>
+                <p>Choose someone from the list on the left</p>
+            </div>
+
+            <!-- Chat window (hidden until user is selected) -->
+            <div id="chatWindow" class="chat-window" style="display:none;">
+
+                <!-- Chat header -->
+                <div class="chat-header">
+                    <div class="chat-user-info">
+                        <div class="avatar" id="chatUserAvatar">?</div>
+                        <div>
+                            <div class="chat-username" id="chatUsername">Select a user</div>
+                            <div id="connectionStatus" class="status-badge connecting">● Connecting...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages area -->
+                <div id="messagesArea" class="messages-area">
+                    <!-- Messages are injected here by chat.js -->
+                </div>
+
+                <!-- Message input -->
+                <div class="message-input-area">
+                    <input type="text" id="messageInput" placeholder="Type a message... (max 1000 characters)"
+                        maxlength="1000" autocomplete="off">
+                    <span id="charCount" class="char-count">0/1000</span>
+                    <button id="sendBtn" class="btn-send">Send ➤</button>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <script src="/js/chat.js"></script>
+</body>
+
+</html>
