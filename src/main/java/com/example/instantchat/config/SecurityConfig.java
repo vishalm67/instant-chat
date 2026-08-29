@@ -12,25 +12,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    /**
-     * Allow all HTTP requests without authentication.
-     * We handle our own simple session-based auth via userId stored in localStorage.
-     * JWT / full Spring Security can be added as a future enhancement.
-     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())           // disable CSRF for simplicity
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()            // allow all requests
-            );
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(request -> {
+                    var config = new org.springframework.web.cors.CorsConfiguration();
+                    config.setAllowedOrigins(java.util.List.of(
+                            "http://127.0.0.1:5500",
+                            "http://localhost:5500",
+                            "https://luxury-puppy-cea127.netlify.app/"  // replace this
+                    ));
+                    config.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(java.util.List.of("*"));
+                    return config;
+                }))
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()
+                );
         return http.build();
     }
 
-    /**
-     * BCryptPasswordEncoder bean - used for hashing passwords before saving to DB.
-     * BCrypt automatically salts passwords, making them secure.
-     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -79,7 +79,7 @@ registerForm.addEventListener('submit', async function (e) {
 
     try {
         // Call REST API: POST /api/users/register
-        const response = await fetch('/api/users/register', {
+        const response = await fetch('https://instant-chat-v0qf.onrender.com/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

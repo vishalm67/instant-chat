@@ -61,10 +61,10 @@ function init() {
 // =============================================
 async function loadUsers() {
     try {
-        const usersRes   = await fetch('http://localhost:8080/api/users');
+        const usersRes   = await fetch('https://instant-chat-v0qf.onrender.com/api/users');
         const users      = await usersRes.json();
 
-        const onlineRes  = await fetch('http://localhost:8080/api/users/online');
+        const onlineRes  = await fetch('https://instant-chat-v0qf.onrender.com/api/users/online');
         const onlineIds  = await onlineRes.json();
         onlineUsers      = new Set(onlineIds.map(id => String(id)));
 

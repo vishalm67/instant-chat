@@ -58,7 +58,7 @@ loginForm.addEventListener('submit', async function (e) {
 
     try {
         // Call the REST API: POST /api/users/login
-        const response = await fetch('/api/users/login', {
+        const response = await fetch('https://instant-chat-v0qf.onrender.com/api/users/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
