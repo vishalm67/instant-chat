@@ -69,7 +69,7 @@ async function loadUsers() {
         onlineUsers      = new Set(onlineIds.map(id => String(id)));
 
         // Fetch unread counts
-        const unreadRes  = await fetch(`http://localhost:8080/api/messages/unread?userId=${currentUserId}`);
+        const unreadRes  = await fetch(`https://instant-chat-v0qf.onrender.com/api/messages/unread?userId=${currentUserId}`);
         unreadCounts     = await unreadRes.json();
 
         allUsers = users.filter(u => String(u.id) !== String(currentUserId));
@@ -177,7 +177,7 @@ function connectWebSocket() {
     connectionStatus.textContent = '● Connecting...';
     connectionStatus.className   = 'status-badge connecting';
 
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS('https://instant-chat-v0qf.onrender.com/ws');
 
     stompClient = new StompJs.Client({
         webSocketFactory: () => socket,
@@ -202,7 +202,7 @@ function connectWebSocket() {
 
             // After connecting, re-fetch online users to catch anyone
             // who was already online before this page loaded
-            fetch('http://localhost:8080/api/users/online')
+            fetch('https://instant-chat-v0qf.onrender.com/api/users/online')
                 .then(res => res.json())
                 .then(onlineIds => {
                     onlineUsers = new Set(onlineIds.map(id => String(id)));
@@ -448,7 +448,7 @@ function clearUnreadBadge(senderId) {
     if (badge) badge.remove();
 
     // Tell server to mark messages as read
-    fetch(`http://localhost:8080/api/messages/read?receiverId=${currentUserId}&senderId=${senderId}`, {
+    fetch(`https://instant-chat-v0qf.onrender.com/api/messages/read?receiverId=${currentUserId}&senderId=${senderId}`, {
         method: 'POST'
     }).catch(err => console.error('Failed to mark as read:', err));
 }

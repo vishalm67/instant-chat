@@ -18,8 +18,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setHandshakeHandler(new UserHandshakeHandler()) // custom Principal assignment
-                .setAllowedOriginPatterns("*")
+                .setHandshakeHandler(new UserHandshakeHandler())
+                .setAllowedOriginPatterns("*") // allow all origins for WebSocket
                 .withSockJS();
     }
 
@@ -45,4 +45,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(new StompChannelInterceptor());
     }
+
 }
